@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Error","Error enum"]],"struct":[["StringLines","Raw persistent database for storing string lines."]],"type":[["Result",""]]});
