@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["reader","Contains sitemap reader."],["structs","Contains structures for working with sitemap."]]});

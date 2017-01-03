@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["format_w3c","Returns an W3C date and time string such as `1996-12-19T16:39:57Z`."]]});
