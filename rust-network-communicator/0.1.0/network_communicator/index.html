@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `network_communicator` crate.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, network_communicator">
+
+    <title>network_communicator - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc mod">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Crate network_communicator</p><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#types">Type Definitions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'network_communicator', ty: 'mod', relpath: '../'};</script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Crate <a class="mod" href=''>network_communicator</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/network_communicator/lib.rs.html#1-71' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'>
+<h1 id='description' class='section-header'><a href='#description'>Description</a></h1>
+<p>Creates thread pool for downloading content.
+It&#39;s provides channel for sending requests and receiving results.</p>
+
+<h1 id='example' class='section-header'><a href='#example'>Example</a></h1>
+<p>extern crate network_communicator;
+extern crate curl;
+use network_communicator::NetworkManagerHandle;
+use network_communicator::NetworkManager;
+use network_communicator::Config;
+use network_communicator::Task;
+use std::sync::{Arc,Mutex};</p>
+
+<p>struct Payload {
+    input: Arc<Mutex<Vec<u8>&gt;&gt;,
+}</p>
+
+<p>impl Payload {
+    fn new() -&gt; Payload {
+        Payload {
+            input: Arc::new(Mutex::new(vec![])),
+        }
+    }
+}</p>
+
+<p>fn network_manager() -&gt; NetworkManagerHandle<Payload,()> {
+    let mut config = Config::new(1).expect(&quot;Unable to create config&quot;);
+    config.set_limit_task_channel(10000).unwrap();
+    config.set_limit_result_channel(10000).unwrap();
+    let manager = NetworkManager::start(&amp;config).expect(&quot;Unable to create network manager&quot;);<br>
+    return manager;
+}</p>
+
+<p>fn get_request(url:&amp;str) -&gt; Task<Payload,()> {
+    let url = String::from(url);
+    Task::new(Payload::new(),move |payload,request|{
+        let payload_input = payload.input.clone();
+        request.url(&amp;url)?;
+        request.write_function(move |data| {
+            payload_input.lock().unwrap().extend_from_slice(data);
+            Ok(data.len())
+        })?;
+        Ok(())
+    })
+}</p>
+
+<p>let manager = network_manager();
+manager.send(get_request(&quot;<a href="https://github.com%22)).expect(%22Unable">https://github.com&quot;)).expect(&quot;Unable</a> to send request&quot;);
+manager.send(get_request(&quot;<a href="https://rust-lang.org%22)).expect(%22Unable">https://rust-lang.org&quot;)).expect(&quot;Unable</a> to send request&quot;);</p>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Config.html"
+                                  title='struct network_communicator::Config'>Config</a></td>
+                           <td class='docblock-short'>
+                                <p>Structure for configuration.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.NetworkManager.html"
+                                  title='struct network_communicator::NetworkManager'>NetworkManager</a></td>
+                           <td class='docblock-short'>
+                                <p>Manager for processsing request.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.NetworkManagerHandle.html"
+                                  title='struct network_communicator::NetworkManagerHandle'>NetworkManagerHandle</a></td>
+                           <td class='docblock-short'>
+                                <p>Handle for working with network manager.</p>
+                           </td>
+                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.ConfigError.html"
+                                  title='enum network_communicator::ConfigError'>ConfigError</a></td>
+                           <td class='docblock-short'>
+                                <p>Errors in configuration.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.Error.html"
+                                  title='enum network_communicator::Error'>Error</a></td>
+                           <td class='docblock-short'>
+                                <p>Errors during starting download manager or processing request.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.Task.html"
+                                  title='enum network_communicator::Task'>Task</a></td>
+                           <td class='docblock-short'>
+                                <p>Task for network manager.</p>
+                           </td>
+                       </tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="type" href="type.RequestDownloaderResult.html"
+                                  title='type network_communicator::RequestDownloaderResult'>RequestDownloaderResult</a></td>
+                           <td class='docblock-short'>
+                                <p>Result of working network manager.</p>
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "network_communicator";
+    </script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>
