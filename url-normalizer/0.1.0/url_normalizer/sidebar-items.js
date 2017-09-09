@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["normalize","Normalizes URL"],["normalize_hash","Removes hash part from url"],["normalize_query","Sorts url query in alphabet order."],["normalize_scheme","Changes encrypted scheme to unencrypted"]]});
