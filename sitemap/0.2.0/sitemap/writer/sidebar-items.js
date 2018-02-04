@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["SiteMapIndexWriter","Writes sitemaps list into writer."],["SiteMapWriter","Writes xml tags into writer."],["UrlSetWriter","Writes urls into writer."]]});

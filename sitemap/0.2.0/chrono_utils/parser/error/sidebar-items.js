@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ParseErrorKind","Error kind of parsing."]],"struct":[["ParseError","An error from the parse_* functions."]],"type":[["ParseResult","Same to `Result<T, ParseError>`."]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["SiteMapEntity","Sitemap entry."]],"struct":[["SiteMapReader","A wrapper around an `std::io::Read` instance which provides sitemap parsing."]]});

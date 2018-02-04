@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Error","Sitemap errors"]],"mod":[["reader","Contains sitemap reader."],["structs","Contains structures for working with sitemap."],["writer","Contains sitemap writer."]]});
